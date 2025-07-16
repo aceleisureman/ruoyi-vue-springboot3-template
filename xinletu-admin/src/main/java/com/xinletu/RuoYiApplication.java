@@ -1,6 +1,5 @@
 package com.xinletu;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -10,7 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author ruoyi
  */
 @SpringBootApplication
-@MapperScan("com.xinletu.**.mapper")
 public class RuoYiApplication
 {
     public static void main(String[] args)
