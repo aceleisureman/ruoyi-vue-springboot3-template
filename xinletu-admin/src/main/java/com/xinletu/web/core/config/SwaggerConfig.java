@@ -34,7 +34,7 @@ public class SwaggerConfig
     {
         OpenAPI openAPI = new OpenAPI()
             .info(new Info()
-                .title("标题：若依管理系统_接口文档")
+                .title("标题：鑫乐途管理系统_接口文档")
                 .description("描述：用于管理集团旗下公司的人员信息,具体包括XXX,XXX模块...")
                 .version("版本号:" + ruoyiConfig.getVersion())
                 .contact(new Contact()
@@ -54,6 +54,17 @@ public class SwaggerConfig
                         .name("Authorization")));
                         
         return openAPI;
+    }
+    
+    /**
+     * 全部接口
+     */
+    @Bean
+    public GroupedOpenApi allApi() {
+        return GroupedOpenApi.builder()
+                .group("所有接口")
+                .pathsToMatch("/**")
+                .build();
     }
     
     /**
@@ -86,6 +97,17 @@ public class SwaggerConfig
         return GroupedOpenApi.builder()
                 .group("工具接口")
                 .pathsToMatch("/tool/**")
+                .build();
+    }
+    
+    /**
+     * 测试接口分组
+     */
+    @Bean
+    public GroupedOpenApi testApi() {
+        return GroupedOpenApi.builder()
+                .group("测试接口")
+                .pathsToMatch("/admin/test/**")
                 .build();
     }
 }

@@ -28,7 +28,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  */
 @Tag(name = "用户信息管理", description = "用户信息管理")
 @RestController
-@RequestMapping("/admin/test/user")
+@RequestMapping("/test/user")
 public class TestController extends BaseController
 {
     private final static Map<Integer, UserEntity> users = new LinkedHashMap<Integer, UserEntity>();

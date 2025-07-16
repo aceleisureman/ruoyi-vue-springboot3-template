@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -17,18 +18,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.xinletu.common.constant.CacheConstants;
 import com.xinletu.common.core.domain.AjaxResult;
 import com.xinletu.common.utils.StringUtils;
 import com.xinletu.system.domain.SysCache;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * 缓存监控
  * 
  * @author ruoyi
  */
+@Tag(name = "缓存监控", description = "缓存监控接口")
 @RestController
-@RequestMapping("/admin/monitor/cache")
+@RequestMapping("/monitor/cache")
 public class CacheController
 {
     @Autowired
@@ -45,6 +51,7 @@ public class CacheController
         caches.add(new SysCache(CacheConstants.PWD_ERR_CNT_KEY, "密码错误次数"));
     }
 
+    @Operation(summary = "获取缓存信息", description = "获取缓存监控列表")
     @PreAuthorize("@ss.hasPermi('monitor:cache:list')")
     @GetMapping()
     public AjaxResult getInfo() throws Exception
@@ -69,6 +76,7 @@ public class CacheController
         return AjaxResult.success(result);
     }
 
+    @Operation(summary = "获取缓存名称列表", description = "获取缓存名称列表")
     @PreAuthorize("@ss.hasPermi('monitor:cache:list')")
     @GetMapping("/getNames")
     public AjaxResult cache()
@@ -76,6 +84,7 @@ public class CacheController
         return AjaxResult.success(caches);
     }
 
+    @Operation(summary = "获取缓存键名列表", description = "根据缓存名称获取键名列表")
     @PreAuthorize("@ss.hasPermi('monitor:cache:list')")
     @GetMapping("/getKeys/{cacheName}")
     public AjaxResult getCacheKeys(@PathVariable String cacheName)
@@ -84,6 +93,7 @@ public class CacheController
         return AjaxResult.success(new TreeSet<>(cacheKeys));
     }
 
+    @Operation(summary = "获取缓存内容", description = "根据缓存键名获取缓存内容")
     @PreAuthorize("@ss.hasPermi('monitor:cache:list')")
     @GetMapping("/getValue/{cacheName}/{cacheKey}")
     public AjaxResult getCacheValue(@PathVariable String cacheName, @PathVariable String cacheKey)
@@ -93,6 +103,7 @@ public class CacheController
         return AjaxResult.success(sysCache);
     }
 
+    @Operation(summary = "删除缓存", description = "根据缓存名称删除缓存信息")
     @PreAuthorize("@ss.hasPermi('monitor:cache:list')")
     @DeleteMapping("/clearCacheName/{cacheName}")
     public AjaxResult clearCacheName(@PathVariable String cacheName)
@@ -102,6 +113,7 @@ public class CacheController
         return AjaxResult.success();
     }
 
+    @Operation(summary = "删除缓存", description = "根据缓存键名删除缓存信息")
     @PreAuthorize("@ss.hasPermi('monitor:cache:list')")
     @DeleteMapping("/clearCacheKey/{cacheKey}")
     public AjaxResult clearCacheKey(@PathVariable String cacheKey)
@@ -110,6 +122,7 @@ public class CacheController
         return AjaxResult.success();
     }
 
+    @Operation(summary = "清空所有缓存", description = "清空所有缓存")
     @PreAuthorize("@ss.hasPermi('monitor:cache:list')")
     @DeleteMapping("/clearCacheAll")
     public AjaxResult clearCacheAll()

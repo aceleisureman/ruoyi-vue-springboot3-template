@@ -145,6 +145,8 @@ mybatis-plus:
       logic-delete-value: 1
       # 逻辑未删除值（默认为 0）
       logic-not-delete-value: 0
+    # 关闭banner打印
+    banner: false
 
 # PageHelper分页插件
 pagehelper:
@@ -161,8 +163,12 @@ springdoc:
     enabled: true
     path: /swagger-ui.html
     disable-swagger-default-url: true
+    tags-sorter: alpha
+    operations-sorter: alpha
   default-produces-media-type: application/json
   default-consumes-media-type: application/json
+  packages-to-scan: com.xinletu
+  paths-to-match: /**
 
 # 防止XSS攻击
 xss:

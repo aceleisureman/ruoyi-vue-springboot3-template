@@ -1,0 +1,36 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# 编码规范
+
+## 包结构
+- `com.xinletu.web.controller`: 控制器类
+- `com.xinletu.system.service`: 服务接口
+- `com.xinletu.system.service.impl`: 服务实现类
+- `com.xinletu.system.mapper`: MyBatis映射接口
+- `com.xinletu.system.domain`: 实体类
+- `com.xinletu.common.utils`: 工具类
+
+## 命名约定
+- 控制器类: `XxxController`
+- 服务接口: `IXxxService`
+- 服务实现类: `XxxServiceImpl`
+- 映射接口: `XxxMapper`
+- 实体类: 无特定后缀
+- 工具类: `XxxUtils`
+
+## 注解使用
+- 控制器类使用 `@RestController` 和 `@RequestMapping`
+- API方法使用 `@GetMapping`, `@PostMapping` 等
+- 服务实现类使用 `@Service`
+- 映射接口使用 `@Mapper`
+- 实体类使用 `@TableName`, `@TableId` 等MyBatis Plus注解
+
+## API文档
+- 使用SpringDoc (OpenAPI 3) 注解
+- 控制器类使用 `@Tag(name = "xxx")`
+- API方法使用 `@Operation(summary = "xxx")`
+- 请求参数使用 `@Parameter`
+- 响应使用 `@ApiResponses` 和 `@ApiResponse`

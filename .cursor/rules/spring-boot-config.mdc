@@ -1,0 +1,28 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Spring Boot 配置
+
+项目使用Spring Boot 3.x，主要配置如下：
+
+## 核心配置文件
+- [application.yml](mdc:xinletu-admin/src/main/resources/application.yml): 主配置文件
+- [application-druid.yml](mdc:xinletu-admin/src/main/resources/application-druid.yml): 数据库配置
+
+## 重要依赖
+项目使用以下关键依赖：
+- Spring Boot 3.2.4
+- MyBatis 3.0.3
+- MyBatis Plus 3.5.5
+- SpringDoc OpenAPI (Swagger) 2.4.0
+
+## 数据库配置
+数据库使用Druid连接池，配置在[DruidConfig.java](mdc:xinletu-framework/src/main/java/com/xinletu/framework/config/DruidConfig.java)。
+
+## MyBatis配置
+MyBatis和MyBatis Plus共存配置在[MybatisPlusConfig.java](mdc:xinletu-framework/src/main/java/com/xinletu/framework/config/MybatisPlusConfig.java)。
+
+## Swagger配置
+API文档使用SpringDoc实现，配置在[SwaggerConfig.java](mdc:xinletu-admin/src/main/java/com/xinletu/web/core/config/SwaggerConfig.java)。

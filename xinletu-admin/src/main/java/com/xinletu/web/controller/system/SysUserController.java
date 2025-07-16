@@ -32,13 +32,18 @@ import com.xinletu.system.service.ISysPostService;
 import com.xinletu.system.service.ISysRoleService;
 import com.xinletu.system.service.ISysUserService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 /**
  * 用户信息
  * 
  * @author ruoyi
  */
+@Tag(name = "用户管理", description = "用户信息管理接口")
 @RestController
-@RequestMapping("/admin/system/user")
+@RequestMapping("/system/user")
 public class SysUserController extends BaseController
 {
     @Autowired
@@ -56,6 +61,7 @@ public class SysUserController extends BaseController
     /**
      * 获取用户列表
      */
+    @Operation(summary = "获取用户列表", description = "获取用户列表")
     @PreAuthorize("@ss.hasPermi('system:user:list')")
     @GetMapping("/list")
     public TableDataInfo list(SysUser user)
@@ -65,6 +71,7 @@ public class SysUserController extends BaseController
         return getDataTable(list);
     }
 
+    @Operation(summary = "导出用户数据", description = "导出用户数据")
     @Log(title = "用户管理", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPermi('system:user:export')")
     @PostMapping("/export")
@@ -75,6 +82,7 @@ public class SysUserController extends BaseController
         util.exportExcel(response, list, "用户数据");
     }
 
+    @Operation(summary = "导入用户数据", description = "导入用户数据")
     @Log(title = "用户管理", businessType = BusinessType.IMPORT)
     @PreAuthorize("@ss.hasPermi('system:user:import')")
     @PostMapping("/importData")
@@ -87,6 +95,7 @@ public class SysUserController extends BaseController
         return success(message);
     }
 
+    @Operation(summary = "下载导入模板", description = "下载导入模板")
     @PostMapping("/importTemplate")
     public void importTemplate(HttpServletResponse response)
     {
@@ -97,6 +106,7 @@ public class SysUserController extends BaseController
     /**
      * 根据用户编号获取详细信息
      */
+    @Operation(summary = "获取用户详情", description = "根据用户编号获取详细信息")
     @PreAuthorize("@ss.hasPermi('system:user:query')")
     @GetMapping(value = { "/", "/{userId}" })
     public AjaxResult getInfo(@PathVariable(value = "userId", required = false) Long userId)

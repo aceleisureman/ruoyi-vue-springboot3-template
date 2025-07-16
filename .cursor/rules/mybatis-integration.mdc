@@ -1,0 +1,34 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# MyBatis 和 MyBatis Plus 集成
+
+## 配置文件
+- MyBatis配置: [mybatis-config.xml](mdc:xinletu-admin/src/main/resources/mybatis/mybatis-config.xml)
+- MyBatis Plus配置: [MybatisPlusConfig.java](mdc:xinletu-framework/src/main/java/com/xinletu/framework/config/MybatisPlusConfig.java)
+
+## 映射文件位置
+- MyBatis映射XML文件位于各模块的 `resources/mapper` 目录下
+- 例如系统模块: [SysUserMapper.xml](mdc:xinletu-system/src/main/resources/mapper/system/SysUserMapper.xml)
+
+## Mapper接口
+- Mapper接口使用 `@Mapper` 注解
+- 可以同时使用MyBatis和MyBatis Plus特性
+- 例如: [SysUserMapper.java](mdc:xinletu-system/src/main/java/com/xinletu/system/mapper/SysUserMapper.java)
+
+## 实体类
+- 实体类使用MyBatis Plus注解
+- 主键使用 `@TableId`
+- 表名使用 `@TableName`
+- 逻辑删除使用 `@TableLogic`
+
+## 分页配置
+- 使用MyBatis Plus的分页插件
+- 配置在 [MybatisPlusConfig.java](mdc:xinletu-framework/src/main/java/com/xinletu/framework/config/MybatisPlusConfig.java)
+
+## 注意事项
+- MyBatis和MyBatis Plus可以共存
+- 使用MyBatis Plus的BaseMapper简化CRUD操作
+- 复杂查询仍然可以使用MyBatis XML映射文件

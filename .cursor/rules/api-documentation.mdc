@@ -1,0 +1,44 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# API文档规范
+
+## Swagger配置
+项目使用SpringDoc OpenAPI 3实现API文档，主要配置在[SwaggerConfig.java](mdc:xinletu-admin/src/main/java/com/xinletu/web/core/config/SwaggerConfig.java)。
+
+## 访问地址
+- API文档地址: `http://localhost:端口号/swagger-ui/index.html`
+- OpenAPI定义: `http://localhost:端口号/v3/api-docs`
+
+## 控制器注解
+控制器类应使用以下注解：
+```java
+@Tag(name = "模块名称", description = "模块描述")
+@RestController
+@RequestMapping("/api/模块路径")
+```
+
+## API方法注解
+API方法应使用以下注解：
+```java
+@Operation(summary = "接口名称", description = "接口详细描述")
+@Parameters({
+    @Parameter(name = "参数名", description = "参数描述", required = true)
+})
+@ApiResponses({
+    @ApiResponse(responseCode = "200", description = "成功"),
+    @ApiResponse(responseCode = "500", description = "服务器内部错误")
+})
+```
+
+## 示例控制器
+参考[SysConfigController.java](mdc:xinletu-admin/src/main/java/com/xinletu/web/controller/system/SysConfigController.java)和[CacheController.java](mdc:xinletu-admin/src/main/java/com/xinletu/web/controller/monitor/CacheController.java)作为API文档注解的示例。
+
+## 注意事项
+- 所有公开API都应添加适当的文档注解
+- 描述应清晰明了，便于前端开发人员理解
+- 参数和响应应有详细说明
+- 应标明哪些参数是必需的
+- 应说明可能的错误响应

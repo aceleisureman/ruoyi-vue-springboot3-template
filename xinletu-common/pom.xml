@@ -47,12 +47,6 @@
             </exclusions>
         </dependency>
 
-        <!-- 引入兼容 Spring Boot 3.x 的 MyBatis -->
-        <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-        </dependency>
-        
         <!-- MyBatis Plus -->
         <dependency>
             <groupId>com.baomidou</groupId>
