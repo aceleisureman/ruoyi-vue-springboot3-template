@@ -1,0 +1,36 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# 样式指南
+
+## UI框架
+本项目使用 Element Plus 作为主要UI框架，Vue 3 作为前端框架。
+
+## 全局样式变量
+全局样式变量定义在以下文件中：
+- 主题样式: [assets/styles/index.scss](mdc:xinletu-ui/src/assets/styles/index.scss)
+- Element UI 样式覆盖: [assets/styles/element-ui.scss](mdc:xinletu-ui/src/assets/styles/element-ui.scss)
+
+## 布局组件
+- 主布局: [layout/index.vue](mdc:xinletu-ui/src/layout/index.vue)
+- 导航栏: [layout/components/Navbar.vue](mdc:xinletu-ui/src/layout/components/Navbar.vue)
+- 侧边栏: [layout/components/Sidebar/index.vue](mdc:xinletu-ui/src/layout/components/Sidebar/index.vue)
+- 标签视图: [layout/components/TagsView/index.vue](mdc:xinletu-ui/src/layout/components/TagsView/index.vue)
+
+## 常用组件
+- 图标选择器: [components/IconSelect/index.vue](mdc:xinletu-ui/src/components/IconSelect/index.vue)
+- 文件上传: [components/FileUpload/index.vue](mdc:xinletu-ui/src/components/FileUpload/index.vue)
+- 图片上传: [components/ImageUpload/index.vue](mdc:xinletu-ui/src/components/ImageUpload/index.vue)
+- 富文本编辑器: [components/Editor/index.vue](mdc:xinletu-ui/src/components/Editor/index.vue)
+- 分页组件: [components/Pagination/index.vue](mdc:xinletu-ui/src/components/Pagination/index.vue)
+
+## 样式规范
+1. 使用 SCSS 预处理器
+2. 页面组件使用 scoped 样式隔离
+3. 使用 CSS 变量实现主题切换功能
+4. 表格、表单等UI组件应保持统一的样式风格
+5. 操作按钮区域使用 flex 布局，保持对齐
+6. 搜索表单使用卡片式样式，带有阴影和圆角
+7. 表格使用圆角和阴影效果，提升视觉层次

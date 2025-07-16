@@ -1,0 +1,109 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# 鑫乐途开发指南
+
+## 技术栈
+
+- **前端**：Vue、Element UI
+- **后端**：
+  - Spring Boot 2.5.15
+  - Spring Security
+  - MyBatis
+  - Redis & JWT
+  - Druid
+
+## 开发规范
+
+### 包命名规范
+
+- 控制器: `com.xinletu.web.controller.[模块]`
+- 服务接口: `com.xinletu.[模块].service`
+- 服务实现: `com.xinletu.[模块].service.impl`
+- 数据访问: `com.xinletu.[模块].mapper`
+- 实体类: `com.xinletu.[模块].domain`
+
+### 代码生成
+
+使用代码生成器可以快速生成业务模块的增删改查功能：
+
+1. 访问代码生成菜单
+2. 导入表结构
+3. 配置生成选项
+4. 生成代码
+
+## 常用功能参考
+
+### 1. 权限注解
+
+使用 `@PreAuthorize` 注解控制接口权限：
+
+```java
+@PreAuthorize("@ss.hasPermi('system:user:list')")
+```
+
+### 2. 数据权限
+
+使用 `@DataScope` 注解控制数据范围：
+
+```java
+@DataScope(deptAlias = "d")
+```
+
+### 3. 参数校验
+
+使用 JSR303 注解进行参数校验：
+
+```java
+@NotBlank(message = "用户名不能为空")
+private String username;
+```
+
+### 4. 事务管理
+
+使用 `@Transactional` 注解管理事务：
+
+```java
+@Transactional
+public void insertUser(SysUser user) {
+    // 业务逻辑
+}
+```
+
+### 5. 缓存使用
+
+使用 Redis 缓存：
+
+```java
+@Autowired
+private RedisCache redisCache;
+
+// 设置缓存
+redisCache.setCacheObject("key", value);
+
+// 获取缓存
+redisCache.getCacheObject("key");
+```
+
+### 6. 异常处理
+
+使用全局异常处理：
+
+```java
+throw new ServiceException("操作失败");
+```
+
+## 常用工具类
+
+- 字符串处理: [StringUtils.java](mdc:xinletu-common/src/main/java/com/xinletu/common/utils/StringUtils.java)
+- 日期处理: [DateUtils.java](mdc:xinletu-common/src/main/java/com/xinletu/common/utils/DateUtils.java)
+- 文件处理: [FileUtils.java](mdc:xinletu-common/src/main/java/com/xinletu/common/utils/file/FileUtils.java)
+- Excel处理: [ExcelUtil.java](mdc:xinletu-common/src/main/java/com/xinletu/common/utils/poi/ExcelUtil.java)
+- 安全工具: [SecurityUtils.java](mdc:xinletu-framework/src/main/java/com/xinletu/framework/security/SecurityUtils.java)
+
+## 前后端交互
+
+- 统一返回结果: [AjaxResult.java](mdc:xinletu-common/src/main/java/com/xinletu/common/core/domain/AjaxResult.java)
+- 分页查询: [TableDataInfo.java](mdc:xinletu-common/src/main/java/com/xinletu/common/core/page/TableDataInfo.java)

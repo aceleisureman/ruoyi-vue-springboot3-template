@@ -1,0 +1,98 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# 鑫乐途模块功能指南
+
+## 1. 后台管理模块 (xinletu-admin)
+
+系统的启动入口和控制器层，包含以下主要功能：
+
+- **通用控制器**：验证码、通用上传下载
+- **监控控制器**：服务器监控、缓存监控、日志监控
+- **系统控制器**：用户、角色、菜单、部门、岗位等管理
+- **工具控制器**：测试接口等
+
+关键文件：
+- 应用入口：[RuoYiApplication.java](mdc:xinletu-admin/src/main/java/com/xinletu/RuoYiApplication.java)
+- 验证码控制器：[CaptchaController.java](mdc:xinletu-admin/src/main/java/com/xinletu/web/controller/common/CaptchaController.java)
+- Swagger配置：[SwaggerConfig.java](mdc:xinletu-admin/src/main/java/com/xinletu/web/core/config/SwaggerConfig.java)
+
+## 2. 核心框架模块 (xinletu-framework)
+
+系统的核心框架，提供安全认证、AOP切面等功能：
+
+- **切面**：数据权限、日志记录、数据源切换
+- **配置**：应用配置、验证码配置、数据源配置等
+- **数据源**：动态数据源切换
+- **安全框架**：认证授权、安全上下文等
+- **拦截器**：重复提交拦截等
+
+关键文件：
+- 日志切面：[LogAspect.java](mdc:xinletu-framework/src/main/java/com/xinletu/framework/aspectj/LogAspect.java)
+- 数据权限：[DataScopeAspect.java](mdc:xinletu-framework/src/main/java/com/xinletu/framework/aspectj/DataScopeAspect.java)
+- 应用配置：[ApplicationConfig.java](mdc:xinletu-framework/src/main/java/com/xinletu/framework/config/ApplicationConfig.java)
+
+## 3. 系统功能模块 (xinletu-system)
+
+系统核心业务功能的实现：
+
+- **实体类**：系统各业务实体定义
+- **数据访问**：MyBatis Mapper接口
+- **服务实现**：业务逻辑实现
+
+关键文件：
+- 用户服务：[ISysUserService.java](mdc:xinletu-system/src/main/java/com/xinletu/system/service/ISysUserService.java)
+- 角色服务：[ISysRoleService.java](mdc:xinletu-system/src/main/java/com/xinletu/system/service/ISysRoleService.java)
+- 菜单服务：[ISysMenuService.java](mdc:xinletu-system/src/main/java/com/xinletu/system/service/ISysMenuService.java)
+
+## 4. 定时任务模块 (xinletu-quartz)
+
+基于Quartz的定时任务管理：
+
+- **配置**：Quartz配置
+- **控制器**：任务管理、日志管理
+- **实体类**：任务和日志实体
+- **服务**：任务管理服务
+- **工具类**：任务调度工具
+
+关键文件：
+- 任务配置：[ScheduleConfig.java](mdc:xinletu-quartz/src/main/java/com/xinletu/quartz/config/ScheduleConfig.java)
+- 任务控制器：[SysJobController.java](mdc:xinletu-quartz/src/main/java/com/xinletu/quartz/controller/SysJobController.java)
+- 任务工具：[CronUtils.java](mdc:xinletu-quartz/src/main/java/com/xinletu/quartz/util/CronUtils.java)
+
+## 5. 代码生成模块 (xinletu-generator)
+
+代码生成功能的实现：
+
+- **配置**：代码生成配置
+- **控制器**：代码生成控制器
+- **实体类**：表和列实体
+- **服务**：代码生成服务
+- **工具类**：代码生成工具
+- **模板**：代码生成模板
+
+关键文件：
+- 生成配置：[GenConfig.java](mdc:xinletu-generator/src/main/java/com/xinletu/generator/config/GenConfig.java)
+- 生成控制器：[GenController.java](mdc:xinletu-generator/src/main/java/com/xinletu/generator/controller/GenController.java)
+- 生成工具：[VelocityUtils.java](mdc:xinletu-generator/src/main/java/com/xinletu/generator/util/VelocityUtils.java)
+
+## 6. 通用工具模块 (xinletu-common)
+
+系统通用工具和基础组件：
+
+- **注解**：权限、数据权限等注解
+- **配置**：全局配置
+- **常量**：系统常量定义
+- **核心组件**：基础控制器、实体、分页等
+- **枚举**：业务状态、操作类型等
+- **异常**：自定义异常类
+- **过滤器**：重复请求过滤等
+- **工具类**：字符串、日期、文件等工具
+- **XSS防护**：XSS过滤相关
+
+关键文件：
+- 基础控制器：[BaseController.java](mdc:xinletu-common/src/main/java/com/xinletu/common/core/controller/BaseController.java)
+- 返回结果：[AjaxResult.java](mdc:xinletu-common/src/main/java/com/xinletu/common/core/domain/AjaxResult.java)
+- 字符串工具：[StringUtils.java](mdc:xinletu-common/src/main/java/com/xinletu/common/utils/StringUtils.java)

@@ -1,0 +1,52 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# API 指南
+
+## 前端API结构
+前端API请求集中在 `src/api` 目录下，按模块组织：
+
+- 登录认证: [api/login.js](mdc:xinletu-ui/src/api/login.js)
+- 系统管理:
+  - 用户管理: [api/system/user.js](mdc:xinletu-ui/src/api/system/user.js)
+  - 角色管理: [api/system/role.js](mdc:xinletu-ui/src/api/system/role.js)
+  - 菜单管理: [api/system/menu.js](mdc:xinletu-ui/src/api/system/menu.js)
+  - 部门管理: [api/system/dept.js](mdc:xinletu-ui/src/api/system/dept.js)
+- 监控管理:
+  - 定时任务: [api/monitor/job.js](mdc:xinletu-ui/src/api/monitor/job.js)
+  - 服务监控: [api/monitor/server.js](mdc:xinletu-ui/src/api/monitor/server.js)
+  - 缓存监控: [api/monitor/cache.js](mdc:xinletu-ui/src/api/monitor/cache.js)
+
+## 后端API结构
+后端API控制器集中在 `xinletu-admin/src/main/java/com/xinletu/web/controller` 目录下：
+
+- 系统管理:
+  - 用户管理: [SysUserController.java](mdc:xinletu-admin/src/main/java/com/xinletu/web/controller/system/SysUserController.java)
+  - 角色管理: [SysRoleController.java](mdc:xinletu-admin/src/main/java/com/xinletu/web/controller/system/SysRoleController.java)
+  - 菜单管理: [SysMenuController.java](mdc:xinletu-admin/src/main/java/com/xinletu/web/controller/system/SysMenuController.java)
+- 监控管理:
+  - 定时任务: [SysJobController.java](mdc:xinletu-admin/src/main/java/com/xinletu/web/controller/monitor/SysJobController.java)
+  - 服务监控: [ServerController.java](mdc:xinletu-admin/src/main/java/com/xinletu/web/controller/monitor/ServerController.java)
+  - 缓存监控: [CacheController.java](mdc:xinletu-admin/src/main/java/com/xinletu/web/controller/monitor/CacheController.java)
+
+## 请求工具
+前端使用封装的请求工具进行API调用:
+- 请求工具: [utils/request.js](mdc:xinletu-ui/src/utils/request.js)
+- 下载工具: [utils/download.js](mdc:xinletu-ui/src/utils/download.js)
+
+## 响应格式
+所有API响应统一使用标准格式:
+```json
+{
+  "code": 200,       // 状态码：200成功，其他表示错误
+  "msg": "操作成功",  // 消息提示
+  "data": {}         // 返回数据
+}
+```
+
+## 权限控制
+API权限控制基于注解实现:
+- 权限注解: [PreAuthorize](mdc:xinletu-common/src/main/java/com/xinletu/common/annotation/PreAuthorize.java)
+- 日志注解: [Log](mdc:xinletu-common/src/main/java/com/xinletu/common/annotation/Log.java)
