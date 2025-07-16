@@ -134,7 +134,7 @@ public class SecurityConfig {
                         requests.requestMatchers(new AntPathRequestMatcher("/admin/login")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/admin/register")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/admin/captchaImage")).permitAll()
-                                .requestMatchers(new AntPathRequestMatcher("/admin/getInfo")).permitAll()
+                                // 移除了 /admin/getInfo 从 permitAll 列表
                                 .requestMatchers(new AntPathRequestMatcher("/admin/getRouters")).permitAll()
                                 // SpringDoc OpenAPI 相关路径
                                 .requestMatchers(new AntPathRequestMatcher("/v3/api-docs/**")).permitAll()

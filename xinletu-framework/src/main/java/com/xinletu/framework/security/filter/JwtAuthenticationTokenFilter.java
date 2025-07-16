@@ -11,8 +11,12 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.alibaba.fastjson2.JSON;
+import com.xinletu.common.constant.HttpStatus;
+import com.xinletu.common.core.domain.AjaxResult;
 import com.xinletu.common.core.domain.model.LoginUser;
 import com.xinletu.common.utils.SecurityUtils;
+import com.xinletu.common.utils.ServletUtils;
 import com.xinletu.common.utils.StringUtils;
 import com.xinletu.framework.web.service.TokenService;
 
@@ -43,7 +47,22 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter
         log.info("Processing request: {}", requestURI);
         
         try {
+            // 获取token
+            String token = tokenService.getTokenFromRequest(request);
+            log.debug("Request token: {}", token);
+            
+            // 获取登录用户
             LoginUser loginUser = tokenService.getLoginUser(request);
+            log.debug("Login user from token: {}", loginUser != null ? loginUser.getUsername() : "null");
+            
+            // 对/admin/getInfo路径进行特殊处理
+            if ("/admin/getInfo".equals(requestURI) && loginUser == null) {
+                log.warn("Unauthorized access to /admin/getInfo");
+                String msg = "获取用户信息异常，未登录或登录状态已过期";
+                ServletUtils.renderString(response, JSON.toJSONString(AjaxResult.error(HttpStatus.UNAUTHORIZED, msg)), HttpStatus.UNAUTHORIZED);
+                return; // 直接返回，不继续处理请求
+            }
+            
             if (StringUtils.isNotNull(loginUser) && StringUtils.isNull(SecurityUtils.getAuthentication()))
             {
                 tokenService.verifyToken(loginUser);
@@ -51,6 +70,8 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 log.info("Set Authentication for user: {}", loginUser.getUsername());
+            } else if (loginUser == null) {
+                log.warn("No valid login user found for request: {}", requestURI);
             }
             chain.doFilter(request, response);
         } catch (Exception e) {

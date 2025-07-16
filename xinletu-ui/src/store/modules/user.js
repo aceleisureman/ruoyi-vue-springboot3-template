@@ -15,7 +15,9 @@ const useUserStore = defineStore(
       nickName: '',
       avatar: '',
       roles: [],
-      permissions: []
+      permissions: [],
+      // 添加请求状态标记
+      isRequestingInfo: false
     }),
     actions: {
       // 登录
@@ -36,9 +38,24 @@ const useUserStore = defineStore(
       },
       // 获取用户信息
       getInfo() {
+        // 如果已经在请求中，直接返回拒绝状态
+        if (this.isRequestingInfo) {
+          return Promise.reject('正在获取用户信息，请勿重复请求');
+        }
+        
+        this.isRequestingInfo = true;
+        
         return new Promise((resolve, reject) => {
           getInfo().then(res => {
+            this.isRequestingInfo = false;
+            
             const user = res.user
+            // 如果用户信息不存在，可能是后端返回了错误但HTTP状态码是200
+            if (!user) {
+              reject('获取用户信息失败，请重新登录')
+              return
+            }
+            
             let avatar = user.avatar || ""
             if (!isHttp(avatar)) {
               avatar = (isEmpty(avatar)) ? defAva : import.meta.env.VITE_APP_BASE_API + avatar
@@ -67,6 +84,7 @@ const useUserStore = defineStore(
             }
             resolve(res)
           }).catch(error => {
+            this.isRequestingInfo = false;
             reject(error)
           })
         })
@@ -81,7 +99,13 @@ const useUserStore = defineStore(
             removeToken()
             resolve()
           }).catch(error => {
-            reject(error)
+            // 即使API调用失败，也清除本地token并视为成功退出
+            this.token = ''
+            this.roles = []
+            this.permissions = []
+            removeToken()
+            console.warn('退出登录API调用失败，但已清除本地登录状态', error)
+            resolve()
           })
         })
       }

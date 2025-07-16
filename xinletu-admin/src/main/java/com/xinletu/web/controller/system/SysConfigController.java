@@ -32,7 +32,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  */
 @Tag(name = "参数配置", description = "参数配置接口")
 @RestController
-@RequestMapping("/system/config")
+@RequestMapping("/admin/system/config")
 public class SysConfigController extends BaseController
 {
     @Autowired

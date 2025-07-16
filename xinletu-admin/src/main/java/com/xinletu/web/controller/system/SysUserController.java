@@ -43,7 +43,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  */
 @Tag(name = "用户管理", description = "用户信息管理接口")
 @RestController
-@RequestMapping("/system/user")
+@RequestMapping("/admin/system/user")
 public class SysUserController extends BaseController
 {
     @Autowired

@@ -236,6 +236,17 @@ public class TokenService
         }
         return token;
     }
+    
+    /**
+     * 获取请求token (公共方法，供过滤器使用)
+     *
+     * @param request
+     * @return token
+     */
+    public String getTokenFromRequest(HttpServletRequest request)
+    {
+        return getToken(request);
+    }
 
     private String getTokenKey(String uuid)
     {

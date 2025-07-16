@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,13 +14,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xinletu.common.constant.Constants;
+import com.xinletu.common.constant.HttpStatus;
 import com.xinletu.common.core.domain.AjaxResult;
 import com.xinletu.common.core.domain.entity.SysMenu;
 import com.xinletu.common.core.domain.entity.SysUser;
 import com.xinletu.common.core.domain.model.LoginBody;
 import com.xinletu.common.core.domain.model.LoginUser;
 import com.xinletu.common.core.text.Convert;
+import com.xinletu.common.exception.ServiceException;
 import com.xinletu.common.utils.DateUtils;
+import com.xinletu.common.utils.MessageUtils;
 import com.xinletu.common.utils.SecurityUtils;
 import com.xinletu.common.utils.StringUtils;
 import com.xinletu.framework.web.service.SysLoginService;
@@ -36,6 +41,8 @@ import com.xinletu.system.service.ISysMenuService;
 @RequestMapping("/admin")
 public class SysLoginController
 {
+    private static final Logger log = LoggerFactory.getLogger(SysLoginController.class);
+    
     @Autowired
     private SysLoginService loginService;
 
@@ -76,24 +83,36 @@ public class SysLoginController
     @GetMapping("/getInfo")
     public AjaxResult getInfo()
     {
-        LoginUser loginUser = SecurityUtils.getLoginUser();
-        SysUser user = loginUser.getUser();
-        // 角色集合
-        Set<String> roles = permissionService.getRolePermission(user);
-        // 权限集合
-        Set<String> permissions = permissionService.getMenuPermission(user);
-        if (!loginUser.getPermissions().equals(permissions))
-        {
-            loginUser.setPermissions(permissions);
-            tokenService.refreshToken(loginUser);
+        try {
+            LoginUser loginUser = SecurityUtils.getLoginUser();
+            if (loginUser == null) {
+                log.warn("获取用户信息失败：未登录或登录状态已过期");
+                throw new ServiceException("获取用户信息异常，未登录或登录状态已过期", HttpStatus.UNAUTHORIZED);
+            }
+            
+            SysUser user = loginUser.getUser();
+            // 角色集合
+            Set<String> roles = permissionService.getRolePermission(user);
+            // 权限集合
+            Set<String> permissions = permissionService.getMenuPermission(user);
+            if (!loginUser.getPermissions().equals(permissions))
+            {
+                loginUser.setPermissions(permissions);
+                tokenService.refreshToken(loginUser);
+            }
+            AjaxResult ajax = AjaxResult.success();
+            ajax.put("user", user);
+            ajax.put("roles", roles);
+            ajax.put("permissions", permissions);
+            ajax.put("isDefaultModifyPwd", initPasswordIsModify(user.getPwdUpdateDate()));
+            ajax.put("isPasswordExpired", passwordIsExpiration(user.getPwdUpdateDate()));
+            return ajax;
+        } catch (ServiceException e) {
+            throw e;
+        } catch (Exception e) {
+            log.error("获取用户信息异常", e);
+            throw new ServiceException("获取用户信息异常，请联系管理员", HttpStatus.UNAUTHORIZED);
         }
-        AjaxResult ajax = AjaxResult.success();
-        ajax.put("user", user);
-        ajax.put("roles", roles);
-        ajax.put("permissions", permissions);
-        ajax.put("isDefaultModifyPwd", initPasswordIsModify(user.getPwdUpdateDate()));
-        ajax.put("isPasswordExpired", passwordIsExpiration(user.getPwdUpdateDate()));
-        return ajax;
     }
 
     /**
@@ -109,6 +128,28 @@ public class SysLoginController
         return AjaxResult.success(menuService.buildMenus(menus));
     }
     
+    /**
+     * 退出登录
+     * 
+     * @return 结果
+     */
+    @PostMapping("/logout")
+    public AjaxResult logout()
+    {
+        try {
+            LoginUser loginUser = SecurityUtils.getLoginUser();
+            if (StringUtils.isNotNull(loginUser))
+            {
+                String userName = loginUser.getUsername();
+                // 删除用户缓存记录
+                tokenService.delLoginUser(loginUser.getToken());
+            }
+        } catch (Exception e) {
+            log.warn("退出登录时发生异常，但将继续执行退出操作", e);
+        }
+        return AjaxResult.success(MessageUtils.message("user.logout.success"));
+    }
+
     // 检查初始密码是否提醒修改
     public boolean initPasswordIsModify(Date pwdUpdateDate)
     {
