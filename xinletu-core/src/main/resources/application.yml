@@ -1,0 +1,17 @@
+# xinletu-core 模块配置
+# 这里只是示例配置，实际项目中可能不需要在此模块单独配置，而是在主模块中统一配置
+
+# MyBatis配置
+mybatis:
+  # 搜索指定包别名
+  typeAliasesPackage: com.xinletu.core.domain
+  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  mapperLocations: classpath:mapper/core/**/*Mapper.xml
+  # 加载全局的配置文件
+  configLocation: classpath:mybatis/mybatis-config.xml
+
+# 日志配置
+logging:
+  level:
+    com.xinletu.core: debug
+    org.springframework: warn 
