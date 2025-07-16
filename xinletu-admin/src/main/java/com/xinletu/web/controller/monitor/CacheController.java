@@ -34,7 +34,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  */
 @Tag(name = "缓存监控", description = "缓存监控接口")
 @RestController
-@RequestMapping("/monitor/cache")
+@RequestMapping("/admin/monitor/cache")
 public class CacheController
 {
     @Autowired
